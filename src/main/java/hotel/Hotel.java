@@ -1,30 +1,33 @@
 package hotel;
 
+import enums.Brand;
+import enums.Country;
+
 public class Hotel {
 
-    private String hotelCountry;
-    private String hotelName;
+    private Country hotelCountry;
+    private Brand hotelName;
     private int maxCapacity;
 
-    public Hotel(String hotelCountry, String hotelName, int maxCapacity) {
+    public Hotel(Country hotelCountry, Brand hotelName, int maxCapacity) {
         this.hotelCountry = hotelCountry;
         this.hotelName = hotelName;
         this.maxCapacity = maxCapacity;
     }
 
-    public String getHotelCountry() {
+    public Country getHotelCountry() {
         return hotelCountry;
     }
 
-    public void setHotelCountry(String hotelCountry) {
+    public void setHotelCountry(Country hotelCountry) {
         this.hotelCountry = hotelCountry;
     }
 
-    public String getHotelName() {
+    public Brand getHotelName() {
         return hotelName;
     }
 
-    public void setHotelName(String hotelName) {
+    public void setHotelName(Brand hotelName) {
         this.hotelName = hotelName;
     }
 
@@ -39,9 +42,7 @@ public class Hotel {
     @Override
     public String toString() {
         return "Hotel: " +
-                "HotelName is '" + hotelName +
-                "', Country of " + hotelCountry +
-                ", Capacity: " + maxCapacity +
-                " rooms";
+                hotelName.getHotelBrand() +
+                ", Country of " + hotelCountry.getCountryName();
     }
 }

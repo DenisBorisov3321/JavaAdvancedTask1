@@ -1,13 +1,18 @@
-import hotel.Hotel;
-import request.HotelRequest;
+import queue.Queue;
+import threads.Booker;
+import threads.Producer;
 
-import java.time.LocalDate;
+import java.util.stream.IntStream;
 
 public class Main {
     public static void main(String[] args) {
-        Hotel hotel = new Hotel("Canada", "Marriot", 999);
-        System.out.println(hotel);
-        HotelRequest hotelRequest = new HotelRequest(hotel, LocalDate.now(), 9, 21);
-        System.out.println(hotelRequest);
+
+        Queue queue = new Queue();
+
+        final int MAX_PRODUCERS = 3;
+        final int MAX_BOOKERS = 6;
+
+        IntStream.range(0, MAX_PRODUCERS).forEach(producerThread -> new Producer(queue).start());
+        IntStream.range(0, MAX_BOOKERS).forEach(bookerThread -> new Booker(queue).start());
     }
 }

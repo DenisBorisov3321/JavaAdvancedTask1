@@ -18,43 +18,9 @@ public class HotelRequest {
         this.roomNumber = roomNumber;
     }
 
-    public Hotel getHotel() {
-        return hotel;
-    }
-
-    public void setHotel(Hotel hotel) {
-        this.hotel = hotel;
-    }
-
-    public LocalDate getCheckinDate() {
-        return checkinDate;
-    }
-
-    public void setCheckinDate(LocalDate checkinDate) {
-        this.checkinDate = checkinDate;
-    }
-
-    public int getStayNights() {
-        return stayNights;
-    }
-
-    public void setStayNights(int stayNights) {
-        this.stayNights = stayNights;
-    }
-
-    public int getRoomNumber() {
-        return roomNumber;
-    }
-
-    public void setRoomNumber(int roomNumber) {
-        this.roomNumber = roomNumber;
-    }
-
     @Override
     public String toString() {
-        return "HotelRequest: " +
-                "Hotel <<" + hotel +
-                ">>, Checkin Date: " + checkinDate +
+        return hotel + ", Checkin Date: " + checkinDate +
                 ", Nights: " + stayNights +
                 ", Room Number: " + roomNumber;
     }
