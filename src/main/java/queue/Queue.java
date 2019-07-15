@@ -25,7 +25,7 @@ public class Queue {
 
         if(addCount <= REQUEST_MAX_QUANTITY){
             hotelRequests.add(hotelRequest);
-            System.out.println("Предложение "+ addCount + " - " + hotelRequests.getLast() + " добавлено в очередь" +
+            logger.info("Предложение "+ addCount + " <<" + hotelRequests.getLast() + ">> добавлено в очередь" +
                     " by Producer: " + Thread.currentThread().getName());
             addCount++;
             notifyAll();
@@ -38,10 +38,10 @@ public class Queue {
             wait();
         }
         hotelRequests.removeFirst();
-        System.out.println("Предложение " + getCount + " принято by Booker: " +
+        logger.info("Предложение " + getCount + " принято by Booker: " +
                 Thread.currentThread().getName());
         Thread.sleep(5000);
-        System.out.println("Предложение " + getCount + " забронировано by Booker: " +
+        logger.info("Предложение " + getCount + " забронировано by Booker: " +
                 Thread.currentThread().getName());
         getCount++;
         notifyAll();

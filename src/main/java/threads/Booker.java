@@ -1,10 +1,13 @@
 package threads;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import queue.Queue;
 
 public class Booker extends Thread{
 
     private Queue queue;
+    private static final Logger logger = LogManager.getLogger(Queue.class.getName());
 
     public Booker(Queue queue){
         this.queue = queue;
@@ -16,7 +19,7 @@ public class Booker extends Thread{
             try {
                 queue.getRequest();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                logger.error("Ошибка бронирования", e);
             }
         }
     }

@@ -3,6 +3,8 @@ package threads;
 import enums.Brand;
 import enums.Country;
 import hotel.Hotel;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import queue.Queue;
 import request.HotelRequest;
 
@@ -15,6 +17,7 @@ public class Producer extends Thread{
     private Queue queue;
     private Country country = Country.CANADA;
     private Brand brand = Brand.HAYATT;
+    private static final Logger logger = LogManager.getLogger(Queue.class.getName());
 
     public Producer(Queue queue){
         this.queue = queue;
@@ -27,8 +30,8 @@ public class Producer extends Thread{
                     random.nextInt(28), random.nextInt(getHotel().getMaxCapacity()));
             try {
                 queue.addRequest(hotelRequest);
-            }catch (InterruptedException ex){
-                System.out.println(ex.getMessage());
+            }catch (InterruptedException e){
+                logger.error("Ошибка бронирования", e);
             }
         }
     }
