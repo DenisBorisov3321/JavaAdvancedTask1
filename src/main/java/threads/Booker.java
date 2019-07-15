@@ -15,7 +15,8 @@ public class Booker extends Thread{
 
     @Override
     public void run(){
-        while (queue.getAddCount() <= queue.getRequestMaxQuantity()){
+
+        while (queue.getAddCount() < queue.getRequestMaxQuantity()){
             try {
                 queue.getRequest();
             } catch (InterruptedException e) {

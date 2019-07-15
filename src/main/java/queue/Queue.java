@@ -28,23 +28,31 @@ public class Queue {
             logger.info("Предложение "+ addCount + " <<" + hotelRequests.getLast() + ">> добавлено в очередь" +
                     " by Producer: " + Thread.currentThread().getName());
             addCount++;
-            notifyAll();
+            this.notifyAll();
+        }else {
+            logger.info("Количество запросов превышено");
+            Thread.currentThread().join();
         }
     }
 
     public synchronized void getRequest()throws InterruptedException{
-        while (hotelRequests.isEmpty()){
-            logger.info("Очередь бронирования пуста ... ожидание ... ");
-            wait();
+        if(getCount <= REQUEST_MAX_QUANTITY){
+            while (hotelRequests.isEmpty()){
+                logger.info("Очередь бронирования пуста ... ожидание ... ");
+                wait();
+            }
+            hotelRequests.removeFirst();
+            logger.info("Предложение " + getCount + " принято by Booker: " +
+                    Thread.currentThread().getName());
+            Thread.sleep(1000);
+            logger.info("Предложение " + getCount + " забронировано by Booker: " +
+                    Thread.currentThread().getName());
+            getCount++;
+            this.notifyAll();
+        } else {
+            logger.info("Все запросы обработаны");
+            Thread.currentThread().join();
         }
-        hotelRequests.removeFirst();
-        logger.info("Предложение " + getCount + " принято by Booker: " +
-                Thread.currentThread().getName());
-        Thread.sleep(5000);
-        logger.info("Предложение " + getCount + " забронировано by Booker: " +
-                Thread.currentThread().getName());
-        getCount++;
-        notifyAll();
     }
 
     public LinkedList<HotelRequest> getHotelRequests(){
@@ -53,6 +61,10 @@ public class Queue {
 
     public int getAddCount(){
         return addCount;
+    }
+
+    public int getGetCount(){
+        return getCount;
     }
 
     public int getRequestMaxQuantity(){
