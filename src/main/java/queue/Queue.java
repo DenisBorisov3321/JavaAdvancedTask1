@@ -1,10 +1,14 @@
 package queue;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import request.HotelRequest;
 
 import java.util.LinkedList;
 
 public class Queue {
+
+    private static final Logger logger = LogManager.getLogger(Queue.class.getName());
 
     private static final int REQUEST_MAX_QUANTITY = 15;
     private static final int QUEUE_MAX_VALUE = 5;
@@ -15,7 +19,7 @@ public class Queue {
 
     public synchronized void addRequest(HotelRequest hotelRequest)throws InterruptedException{
         while (hotelRequests.size() == QUEUE_MAX_VALUE){
-            System.out.println("Очередь бронирования переполнена ... ожидание ... ");
+            logger.info("Очередь бронирования переполнена ... ожидание ... ");
             wait();
         }
 
@@ -24,14 +28,13 @@ public class Queue {
             System.out.println("Предложение "+ addCount + " - " + hotelRequests.getLast() + " добавлено в очередь" +
                     " by Producer: " + Thread.currentThread().getName());
             addCount++;
-            Thread.sleep(1000);
             notifyAll();
         }
     }
 
     public synchronized void getRequest()throws InterruptedException{
         while (hotelRequests.isEmpty()){
-            System.out.println("Очередь бронирования пуста ... ожидание ... ");
+            logger.info("Очередь бронирования пуста ... ожидание ... ");
             wait();
         }
         hotelRequests.removeFirst();
@@ -50,10 +53,6 @@ public class Queue {
 
     public int getAddCount(){
         return addCount;
-    }
-
-    public int getGetCount(){
-        return getCount;
     }
 
     public int getRequestMaxQuantity(){
