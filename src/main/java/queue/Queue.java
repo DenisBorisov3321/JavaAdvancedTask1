@@ -18,6 +18,7 @@ public class Queue {
     private int getCount = 1;
 
     public synchronized void addRequest(HotelRequest hotelRequest)throws InterruptedException{
+
         while (hotelRequests.size() == QUEUE_MAX_VALUE){
             logger.info("Очередь бронирования переполнена ... ожидание ... ");
             wait();
@@ -30,17 +31,15 @@ public class Queue {
             addCount++;
             this.notifyAll();
         }else {
-            logger.info("Количество запросов превышено");
-            Thread.currentThread().join();
+            logger.info("Все запросы исполнены");
+            Thread.currentThread().interrupt();
         }
     }
 
     public synchronized void getRequest()throws InterruptedException{
-        if(getCount <= REQUEST_MAX_QUANTITY){
-            while (hotelRequests.isEmpty()){
-                logger.info("Очередь бронирования пуста ... ожидание ... ");
-                wait();
-            }
+
+        while (!hotelRequests.isEmpty()){
+
             hotelRequests.removeFirst();
             logger.info("Предложение " + getCount + " принято by Booker: " +
                     Thread.currentThread().getName());
@@ -49,9 +48,7 @@ public class Queue {
                     Thread.currentThread().getName());
             getCount++;
             this.notifyAll();
-        } else {
-            logger.info("Все запросы обработаны");
-            Thread.currentThread().join();
+
         }
     }
 
