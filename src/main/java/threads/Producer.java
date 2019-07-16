@@ -17,7 +17,7 @@ public class Producer extends Thread{
     private Queue queue;
     private Country country = Country.CANADA;
     private Brand brand = Brand.HAYATT;
-    private static final Logger logger = LogManager.getLogger(Queue.class.getName());
+    private static final Logger logger = LogManager.getLogger(Producer.class.getName());
 
     public Producer(Queue queue){
         this.queue = queue;

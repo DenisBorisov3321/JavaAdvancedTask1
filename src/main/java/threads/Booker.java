@@ -7,7 +7,7 @@ import queue.Queue;
 public class Booker extends Thread{
 
     private Queue queue;
-    private static final Logger logger = LogManager.getLogger(Queue.class.getName());
+    private static final Logger logger = LogManager.getLogger(Booker.class.getName());
 
     public Booker(Queue queue){
         this.queue = queue;
