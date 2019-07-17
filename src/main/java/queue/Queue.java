@@ -14,8 +14,8 @@ public class Queue {
     private static final int QUEUE_MAX_VALUE = 5;
 
     private LinkedList<HotelRequest> hotelRequests = new LinkedList<>();
-    private int addCount = 1;
-    private int getCount = 1;
+    private int addCount = 0;
+    private int getCount = 0;
 
     public synchronized void addRequest(HotelRequest hotelRequest)throws InterruptedException{
 
@@ -24,9 +24,9 @@ public class Queue {
             wait();
         }
 
-        if(addCount <= REQUEST_MAX_QUANTITY){
+        if(addCount < REQUEST_MAX_QUANTITY){
             hotelRequests.add(hotelRequest);
-            logger.info("Предложение "+ addCount + " <<" + hotelRequests.getLast() + ">> добавлено в очередь" +
+            logger.info("Предложение "+ (addCount + 1) + " <<" + hotelRequests.getLast() + ">> добавлено в очередь" +
                     " by Producer: " + Thread.currentThread().getName());
             addCount++;
             this.notifyAll();
@@ -41,10 +41,10 @@ public class Queue {
         while (!hotelRequests.isEmpty()){
 
             hotelRequests.removeFirst();
-            logger.info("Предложение " + getCount + " принято by Booker: " +
+            logger.info("Предложение " + (getCount + 1) + " принято by Booker: " +
                     Thread.currentThread().getName());
-            Thread.sleep(1000);
-            logger.info("Предложение " + getCount + " забронировано by Booker: " +
+            Thread.sleep(5000);
+            logger.info("Предложение " + (getCount + 1) + " забронировано by Booker: " +
                     Thread.currentThread().getName());
             getCount++;
             this.notifyAll();
